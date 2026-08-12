@@ -59,3 +59,11 @@ class SolicitudesModel:
         """
         resultado = self.db.execute(query, (usuario_cedula,))
         return len(resultado) if resultado else 0
+
+    def reasignar_cedula(self, cedula_anterior, cedula_nueva):
+        query = """
+            UPDATE solicitudes
+            SET usuario = %s
+            WHERE usuario = %s
+        """
+        self.db.execute(query, (cedula_nueva, cedula_anterior))

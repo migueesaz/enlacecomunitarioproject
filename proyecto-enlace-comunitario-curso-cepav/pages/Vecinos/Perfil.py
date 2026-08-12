@@ -198,22 +198,25 @@ with c2:
     )
 
 if st.button("Guardar cambios"):
-    cedula_cuenta = usuario.get("cedula", "")
     habitante_id = usuario.get("habitante_id")
+    actual = None
     if habitante_id:
         actual = HabitantesController().get_habitante(habitante_id)
-        if actual:
+    if not actual:
+        st.error("No se encontró tu registro en la base de datos.")
+    else:
+        try:
             HabitantesController().update_habitante(
                 habitante_id,
                 {
-                    "nombre": actual["nombre"],
-                    "apellido": actual["apellido"],
-                    "cedula": actual["cedula"],
+                    "nombre": nombre,
+                    "apellido": apellido,
+                    "cedula": cedula,
                     "genero": actual["genero"],
-                    "email": actual["email"],
+                    "email": correo,
                     "fecha_nac": actual["Fecha_nacimiento"],
-                    "telefono1": actual["telefono_1"],
-                    "direccion_1": actual["direccion_1"],
+                    "telefono1": telefono,
+                    "direccion_1": direccion,
                     "rol_id": actual["rol_id"],
                     "estado_civil": estado_civil,
                     "profesion": profesion,
@@ -221,23 +224,32 @@ if st.button("Guardar cambios"):
                     "longitud": longitud if longitud is not None else actual.get("longitud"),
                 },
             )
-    invalidadas = SolicitudesController().invalidar_aprobadas_usuario(cedula_cuenta)
-    st.session_state.usuario.update({
-        "nombre": nombre,
-        "apellido": apellido,
-        "cedula": cedula,
-        "correo": correo,
-        "telefono": telefono,
-        "direccion": direccion,
-        "estado_civil": estado_civil,
-        "profesion": profesion,
-        "latitud": latitud if latitud is not None else usuario.get("latitud"),
-        "longitud": longitud if longitud is not None else usuario.get("longitud"),
-    })
-    st.success("Perfil actualizado correctamente")
-    if invalidadas:
-        st.info(
-            "Actualizaste tus datos personales. Para obtener una carta con tu "
-            "información actualizada, por favor crea una solicitud nueva; el "
-            "administrador la verificará antes de emitirla."
-        )
+        except Exception:
+            st.error(
+                "No se pudieron guardar los datos. Revisa que la cédula y el "
+                "correo no estén registrados por otro vecino."
+            )
+        else:
+            solicitudes_ctrl = SolicitudesController()
+            if cedula != actual["cedula"]:
+                solicitudes_ctrl.reasignar_cedula(actual["cedula"], cedula)
+            invalidadas = solicitudes_ctrl.invalidar_aprobadas_usuario(cedula)
+            st.session_state.usuario.update({
+                "nombre": nombre,
+                "apellido": apellido,
+                "cedula": cedula,
+                "correo": correo,
+                "telefono": telefono,
+                "direccion": direccion,
+                "estado_civil": estado_civil,
+                "profesion": profesion,
+                "latitud": latitud if latitud is not None else usuario.get("latitud"),
+                "longitud": longitud if longitud is not None else usuario.get("longitud"),
+            })
+            st.success("Perfil actualizado correctamente")
+            if invalidadas:
+                st.info(
+                    "Actualizaste tus datos personales. Para obtener una carta con tu "
+                    "información actualizada, por favor crea una solicitud nueva; el "
+                    "administrador la verificará antes de emitirla."
+                )

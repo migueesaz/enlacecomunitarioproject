@@ -19,3 +19,6 @@ class SolicitudesController:
 
     def invalidar_aprobadas_usuario(self, usuario_cedula):
         return self.modelo.invalidar_aprobadas_usuario(usuario_cedula)
+
+    def reasignar_cedula(self, cedula_anterior, cedula_nueva):
+        return self.modelo.reasignar_cedula(cedula_anterior, cedula_nueva)
