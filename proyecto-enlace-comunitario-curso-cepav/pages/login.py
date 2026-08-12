@@ -10,7 +10,7 @@ st.set_page_config(
 
 login = Login()
 
-LOGO = Path(__file__).resolve().parent.parent / "templates" / "Transparente.png"
+LOGO = Path(__file__).resolve().parent.parent / "templates" / "Enlace.png"
 
 st.html(
     """
