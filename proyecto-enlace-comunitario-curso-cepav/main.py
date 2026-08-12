@@ -9,7 +9,7 @@ st.set_page_config(
     layout="wide",
 )
 
-LOGO = Path(__file__).resolve().parent / "templates" / "Gemini_Generated_Image_s68hpbs68hpbs68h.png"
+LOGO = Path(__file__).resolve().parent / "templates" / "Transparente.png"
 
 if "migraciones_ok" not in st.session_state:
     try:

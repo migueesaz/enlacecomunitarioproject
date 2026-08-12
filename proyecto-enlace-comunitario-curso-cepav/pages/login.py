@@ -10,7 +10,7 @@ st.set_page_config(
 
 login = Login()
 
-LOGO = Path(__file__).resolve().parent.parent / "templates" / "Gemini_Generated_Image_s68hpbs68hpbs68h.png"
+LOGO = Path(__file__).resolve().parent.parent / "templates" / "Transparente.png"
 
 st.html(
     """
