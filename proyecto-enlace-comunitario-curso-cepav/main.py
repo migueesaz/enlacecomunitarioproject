@@ -52,6 +52,13 @@ if st.session_state.logged_in:
         for pagina in paginas:
             st.sidebar.page_link(pagina)
 else:
-    pg = st.navigation([login_page])
+    pg = st.navigation([login_page], position="hidden")
+    st.html(
+        """
+        <style>
+        [data-testid="stSidebar"] { display: none; }
+        </style>
+        """
+    )
 
 pg.run()
