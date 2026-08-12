@@ -44,10 +44,13 @@ if st.session_state.logged_in:
     )
     st.sidebar.divider()
     if st.session_state.cambiar_password:
-        pg = st.navigation([cambiar_page])
+        pg = st.navigation([cambiar_page], position="hidden")
+        st.sidebar.page_link(cambiar_page)
     else:
-        pg = st.navigation(login.paginas_disponibles())
-    
+        paginas = login.paginas_disponibles()
+        pg = st.navigation(paginas, position="hidden")
+        for pagina in paginas:
+            st.sidebar.page_link(pagina)
 else:
     pg = st.navigation([login_page])
 
