@@ -35,8 +35,14 @@ if st.session_state.get("mostrar_formulario"):
                 try:
                     controller.crear_solicitud(usuario_cedula, opciones[tipo], tipo)
                 except Exception as e:
-                    print(f"[solicitudes] Error al crear solicitud: {e}", flush=True)
-                    st.error(f"No se pudo registrar la solicitud: {e}")
+                    if "idx_solicitudes_activas_unicas" in str(e):
+                        st.error(
+                            "Ya tiene una solicitud activa de este tipo. "
+                            "Espere a que sea atendida."
+                        )
+                    else:
+                        print(f"[solicitudes] Error al crear solicitud: {e}", flush=True)
+                        st.error(f"No se pudo registrar la solicitud: {e}")
                 else:
                     st.session_state.mostrar_formulario = False
                     st.session_state.solicitud_creada = True
