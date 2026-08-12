@@ -42,4 +42,8 @@ class PGConn:
         except Exception:
             print("[PGConn] Error al ejecutar consulta:", file=sys.stderr, flush=True)
             traceback.print_exc()
+            try:
+                self.conn.rollback()
+            except Exception:
+                pass
             raise
