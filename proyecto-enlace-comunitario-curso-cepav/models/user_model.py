@@ -74,7 +74,8 @@ class UserModel:
             FROM usuarios u
             JOIN habitantes h ON h.id_habitante = u.habitante_id
             LEFT JOIN roles r ON r.id = u.rol_id
-            WHERE h.email = %s
+            WHERE LOWER(h.email) = LOWER(%s)
+            LIMIT 1
         """
         usuarios = self.conexion.execute(query, (correo,))
         if not usuarios:
