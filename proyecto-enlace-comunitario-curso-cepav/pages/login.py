@@ -1,4 +1,5 @@
 import streamlit as st
+from pathlib import Path
 from controllers.login_controller import Login
 
 st.set_page_config(
@@ -9,6 +10,8 @@ st.set_page_config(
 
 login = Login()
 
+LOGO = Path(__file__).resolve().parent.parent / "templates" / "Gemini_Generated_Image_s68hpbs68hpbs68h.png"
+
 st.html(
     """
     <style>
@@ -16,19 +19,10 @@ st.html(
         padding-top: 2.75rem !important;
         padding-bottom: 0 !important;
     }
-    .st-key-hero {
-        height: calc(100dvh - 8.5rem);
+    .st-key-logo {
         display: flex;
-        align-items: stretch;
-    }
-    .st-key-hero [data-testid="stImage"] {
-        height: 100%;
-    }
-    .st-key-hero img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
+        align-items: center;
+        justify-content: center;
     }
     </style>
     """
@@ -43,11 +37,8 @@ st.caption(
 hero, form_col = st.columns([1, 1], gap="small", vertical_alignment="center")
 
 with hero:
-    with st.container(key="hero"):
-        st.image(
-            "https://images.pexels.com/photos/461049/pexels-photo-461049.jpeg",
-            width="stretch",
-        )
+    with st.container(key="logo"):
+        st.image(str(LOGO), width="stretch")
 
 with form_col:
     with st.container(horizontal_alignment="center", border=True, width="stretch"):

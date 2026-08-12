@@ -1,4 +1,5 @@
 import streamlit as st
+from pathlib import Path
 from controllers.login_controller import Login
 from migrations.migrador import ejecutar_migraciones
 
@@ -7,6 +8,8 @@ st.set_page_config(
     page_icon=":material/groups:",
     layout="wide",
 )
+
+LOGO = Path(__file__).resolve().parent / "templates" / "Gemini_Generated_Image_s68hpbs68hpbs68h.png"
 
 if "migraciones_ok" not in st.session_state:
     try:
@@ -32,6 +35,7 @@ login_page = st.Page("pages/login.py", title="Iniciar Sesión", icon=":material/
 cambiar_page = st.Page("pages/cambiar_password.py", title="Cambiar Contraseña", icon=":material/password:")
 
 if st.session_state.logged_in:
+    st.sidebar.image(str(LOGO), width=180)
     st.sidebar.markdown(
         f"### Bienvenido, {st.session_state.usuario['nombre']}"
     )
